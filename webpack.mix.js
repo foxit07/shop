@@ -11,5 +11,19 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery', 'jquery']
+});
+
+
+mix.js('resources/admin/assets/scripts/index.js',
+'public/js/admin.js');
+
+mix.styles('resources/admin/assets/styles/index.scss', 'public/css/admin.css');
+
+
+
+mix.copy('resources/admin/assets/static/fonts/icons/fontawesome', 'public/fonts');
+mix.copy('resources/admin/assets/static/fonts/icons/themify', 'public/fonts');
+mix.copy('resources/admin/assets/static/images/datatables', 'public/images');
+mix.copy('resources/admin/assets/static/images', 'public/images');

@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+//Route::get('/admin', 'Admin\DashboardController@index');
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
+    Route::get('/', 'DashboardController@index');
+    Route::resource('categories', 'CategoryController');
+});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
