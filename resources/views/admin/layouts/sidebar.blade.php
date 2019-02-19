@@ -55,8 +55,21 @@
                     <li>
                         <a class='sidebar-link' href="datatable.html">Products</a>
                     </li>
-                    <li>
-                        <a class='sidebar-link' href="datatable.html">Characteristics</a>
+                    <li class="nav-item dropdown">
+                        <a href="javascript:void(0);">
+                            <span>Attributes</span>
+                            <span class="arrow">
+                      <i class="ti-angle-right"></i>
+                    </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:void(0);">Attributes</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">Attributes Group</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a class='sidebar-link' href="datatable.html">Manufactures</a>

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+
 
 class CategoryController extends Controller
 {
@@ -14,12 +16,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category)
+    public function index(Category $categories)
     {
-        $categories = $category->latest()->get();
-        $nameColumns = $category->getTableColumns();
+
+        $nameColumns = $categories->nameColumns();
+        $categories = $categories->allWithPath();
+
         return view('admin.category.index', compact('categories','nameColumns'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -28,8 +33,8 @@ class CategoryController extends Controller
      */
     public function create(Category $category)
     {
-        $parentCategories = $category->getParentsCategory();
-        return view('admin.category.create', compact('parentCategories'));
+        $categories = $category->allWithPath();
+        return view('admin.category.create', compact('categories'));
     }
 
     /**
@@ -38,11 +43,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(CreateCategoryRequest $request)
     {
 
-        /*Category::create($request->all());*/
-        return back();
+
+
+       $root = Category::create($request->all());
+
+        return redirect()->route('categories.create');
     }
 
     /**
@@ -64,7 +72,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $categories = $category->allWithPath();
+
+        return view('admin.category.edit', compact('category', 'categories'));
     }
 
     /**
@@ -74,9 +84,11 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+
+        $category->update($request->all());
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -87,6 +99,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index');
     }
+
 }

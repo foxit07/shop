@@ -22,7 +22,6 @@
                             @foreach($nameColumns as $nameColumn)
                                 <th>{{ $nameColumn }}</th>
                             @endforeach
-                                <th>Actions</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -30,16 +29,24 @@
                             @foreach($nameColumns as $nameColumn)
                                 <th>{{ $nameColumn }}</th>
                             @endforeach
-                                <th>Actions</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         @forelse($categories as $category)
                             <tr>
-                                @foreach($category->getAttributes() as $value)
-                                    <td>{{$value}}</td>
-                                @endforeach
-                                @include('admin.layouts.actions')
+                                @if($category->isRoot())
+                                    <td>{{ $category->id }}</td>
+                                    <td>{{ $category->path }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $category->slug }}</td>
+                                    @include('admin.layouts.actions')
+                                @else
+                                    <td>{{ $category->id }}</td>
+                                    <td>{{ $category->path }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $category->slug }}</td>
+                                    @include('admin.layouts.actions')
+                                @endif
                             </tr>
                         @empty
                         @endforelse

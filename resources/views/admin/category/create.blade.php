@@ -1,12 +1,21 @@
 @extends('admin.layouts.admin')
 @section('content')
-    <div class="row">
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="row">
         <div class="col-lg-12">
             <h4 class="c-grey-900 mT-10 mB-15">Categories</h4>
         </div>
         <div class="col-lg-12 mb-1">
-            <button type="submit" form="categoryForm" href="categories/store" data-toggle="tooltip" data-placement="top" title="Save" class="ti-save-alt mr-1"
+            <button type="submit" form="categoryForm" data-toggle="tooltip" data-placement="top" title="Save" class="ti-save-alt mr-1"
                style="border: none; background-color: transparent; cursor: pointer; outline:none;  font-size: 2em; color: blue;">
 
             </button>
@@ -30,18 +39,10 @@
     <div class="tab-content" id="categoryContent">
         <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
             <div class="mt-3">
-                <form action="/admin/categories" method="POST" id="categoryForm">
+                <form action="{{ route('categories.store') }}" method="POST" id="categoryForm">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label for="parent">Parent</label>
-                        <select class="form-control" id="parent" name="parent_id">
-                            <option value="0">No parent</option>
-                            @forelse($parentCategories as $parentCategory)
-                                <option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>
-                            @empty
-
-                            @endforelse
-                        </select>
+                        @include('admin.category.select')
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
@@ -49,10 +50,16 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="category">Slug</label>
+                        <input type="text" class="form-control" id="slug" placeholder="Slug" name="slug">
+                    </div>
+
+
+                    <div class="form-group">
                         <label for="status">Status</label>
                         <select class="form-control" id="status" name="status">
                             <option value="1">Active</option>
-                            <option value="1">UnActive</option>
+                            <option value="0">UnActive</option>
                         </select>
                     </div>
 

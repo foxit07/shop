@@ -2,25 +2,108 @@
 
 namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use Baum\Node;
 
-class Category extends Model
+class Category extends Node
 {
+
     const PARENT_CATEGORIES = 0;
     const STATUS_ACTIVE = 1;
 
-    protected $guarded = [];
+    protected $table = 'categories';
 
-    public function getTableColumns()
+    // 'parent_id' column name
+    protected $parentColumn = 'parent_id';
+
+    // 'lft' column name
+    protected $leftColumn = 'left_index';
+
+    // 'rgt' column name
+    protected $rightColumn = 'right_index';
+
+    // 'depth' column name
+    protected $depthColumn = 'depth';
+
+    // guard attributes from mass-assignment
+    protected $guarded =  ['id', 'left_index', 'right_index', 'depth'];
+
+
+
+    public static function boot()
     {
-        return $this
-            ->getConnection()
-            ->getSchemaBuilder()
-            ->getColumnListing($this->getTable());
+        parent::boot();
+
+        self::creating(function($category){
+            if(empty($category->slug)){
+                $category->slug = str_slug($category->name);
+            }else{
+                $category->slug = strtolower($category->slug);
+            }
+        });
+
+        self::updating(function($category){
+            if(empty($category->slug)){
+                $category->slug = str_slug($category->name);
+            }else{
+                $category->slug = strtolower($category->slug);
+            }
+        });
     }
 
-    public function getParentsCategory()
+
+    /**
+     * @return array | Name for columns
+     */
+    public function nameColumns()
     {
-        return $this->where(['parent_id' => self::PARENT_CATEGORIES, 'status' => self::STATUS_ACTIVE])->get();
+        return [
+            'id' => 'id',
+            'path' => 'path',
+            'name' => 'name',
+            'slug' => 'slug',
+            'action' => 'Action'
+        ];
+    }
+
+
+    /**
+     * @param $item | object Category
+     * @param $path | string
+     * @return string | path category
+     */
+    private function path($item, $path)
+    {
+        $msk = ' > ';
+        if ($item->parent()->get()) {
+            $parent = $item->parent()->get();
+
+            foreach ($parent as $val) {
+                $path = $val->name . $msk . $path;
+                return $this->path($val, $path);
+            }
+        }
+        return $path;
+    }
+
+
+    /**
+     * @return array | all Category
+     */
+    public function allWithPath()
+    {
+        $categories = self::all();
+        $a = [];
+        foreach ($categories as $category){
+            if($category->isChild()){
+                foreach ($category->getDescendantsAndSelf() as $item){
+                    $item->path = $this->path($item, $item->name);
+                    $a[] = $item;
+                };
+            }else{
+                $category->path = $category->name;
+                $a[] = $category;
+            }
+        }
+        return array_unique($a);
     }
 }
