@@ -9,7 +9,7 @@
                         <div class="peers ai-c fxw-nw">
                             <div class="peer">
                                 <div class="logo">
-                                    <img src="images/logo.png" alt="">
+                                    <img src="/images/logo.png" alt="">
                                 </div>
                             </div>
                             <div class="peer peer-greed">
@@ -50,7 +50,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class='sidebar-link' href="categories">Categories</a>
+                        <a class='sidebar-link' href="{{ route('categories.index') }}">Categories</a>
                     </li>
                     <li>
                         <a class='sidebar-link' href="datatable.html">Products</a>
@@ -64,10 +64,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="javascript:void(0);">Attributes</a>
+                                <a href="{{ route('attributes.index') }}">Attributes</a>
                             </li>
                             <li>
-                                <a href="javascript:void(0);">Attributes Group</a>
+                                <a href="{{ route('attributes_group.index') }}">Attributes Group</a>
                             </li>
                         </ul>
                     </li>

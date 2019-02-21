@@ -39,13 +39,21 @@
                                     <td>{{ $category->path }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
-                                    @include('admin.layouts.actions')
+                                    @include('admin.layouts.actions',[
+                                        'id' => $category->id,
+                                        'edit' => 'categories.edit',
+                                        'destroy' => 'categories.destroy'
+                                    ])
                                 @else
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->path }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
-                                    @include('admin.layouts.actions')
+                                    @include('admin.layouts.actions', [
+                                        'id' => $category->id,
+                                        'edit' => 'categories.edit',
+                                        'destroy' => 'categories.destroy'
+                                    ])
                                 @endif
                             </tr>
                         @empty

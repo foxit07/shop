@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
     Route::get('/', 'DashboardController@index');
     Route::resource('categories', 'CategoryController');
     Route::resource('attributes_group', 'AttributesGroupController');
+    Route::resource('attributes', 'AttributesController');
 });
 
 Auth::routes();

@@ -46,11 +46,8 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {
 
-
-
-       $root = Category::create($request->all());
-
-        return redirect()->route('categories.create');
+      Category::create($request->all());
+      return redirect()->route('categories.create');
     }
 
     /**

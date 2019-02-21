@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Characteristics;
+use App\Models\Admin\Attribute;
+use App\Models\Admin\AttributeGroup;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AttributesController extends Controller
@@ -12,9 +14,12 @@ class AttributesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Attribute $attribute)
     {
-        //
+        $attributes = $attribute->with('group')->get();
+        $nameColumns = $attribute->nameColumns();
+
+        return view('admin.attributes.index', compact('attributes', 'nameColumns'));
     }
 
     /**
@@ -24,7 +29,9 @@ class AttributesController extends Controller
      */
     public function create()
     {
-        //
+        $groups = AttributeGroup::all();
+
+        return view('admin.attributes.create', compact('groups'));
     }
 
     /**
@@ -35,7 +42,9 @@ class AttributesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Attribute::create($request->all());
+
+        return redirect()->route('attributes.create');
     }
 
     /**
@@ -55,9 +64,11 @@ class AttributesController extends Controller
      * @param  \App\Models\Characteristics  $characteristics
      * @return \Illuminate\Http\Response
      */
-    public function edit(Characteristics $characteristics)
+    public function edit(Attribute $attribute, AttributeGroup $group)
     {
-        //
+        $groups = $group->all();
+
+        return view('admin.attributes.edit', compact('attribute', 'groups'));
     }
 
     /**
@@ -67,9 +78,10 @@ class AttributesController extends Controller
      * @param  \App\Models\Characteristics  $characteristics
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Characteristics $characteristics)
+    public function update(Request $request, Attribute $attribute)
     {
-        //
+        $attribute->update($request->all());
+        return redirect()->route('attributes.index');
     }
 
     /**
@@ -78,8 +90,10 @@ class AttributesController extends Controller
      * @param  \App\Models\Characteristics  $characteristics
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Characteristics $characteristics)
+    public function destroy(Attribute $attribute)
     {
-        //
+        $attribute->delete();
+
+        return redirect()->route('attributes.index');
     }
 }
