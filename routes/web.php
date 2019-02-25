@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
     Route::resource('categories', 'CategoryController');
     Route::resource('attributes_group', 'AttributesGroupController');
     Route::resource('attributes', 'AttributesController');
+    Route::resource('products', 'ProductController');
 });
 
 Auth::routes();

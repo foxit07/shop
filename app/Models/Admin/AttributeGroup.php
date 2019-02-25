@@ -9,6 +9,12 @@ class AttributeGroup extends Model
     protected $table = 'attributes_group';
     protected $guarded = [];
 
+
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::class, 'group_id');
+    }
+
     /**
      * @return array | Name for columns
      */
@@ -20,4 +26,5 @@ class AttributeGroup extends Model
             'action' => 'action'
         ];
     }
+
 }

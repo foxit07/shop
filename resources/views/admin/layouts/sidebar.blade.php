@@ -53,7 +53,7 @@
                         <a class='sidebar-link' href="{{ route('categories.index') }}">Categories</a>
                     </li>
                     <li>
-                        <a class='sidebar-link' href="datatable.html">Products</a>
+                        <a class='sidebar-link' href="{{ route('products.index') }}">Products</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a href="javascript:void(0);">
@@ -71,10 +71,26 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a class='sidebar-link' href="datatable.html">Manufactures</a>
+
+                    <li class="nav-item dropdown">
+                        <a href="javascript:void(0);">
+                            <span>Partners</span>
+                            <span class="arrow">
+                      <i class="ti-angle-right"></i>
+                    </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('attributes.index') }}">Manufactures</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('attributes_group.index') }}">Providers</a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
+
             </li>
 
             <li class="nav-item dropdown">

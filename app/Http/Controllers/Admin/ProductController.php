@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Product;
+use App\Models\Admin\AttributeGroup;
+use App\Models\Admin\Category;
+use App\Models\Admin\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -12,9 +15,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
-        //
+        $nameColumns = $product->nameColumns();
+        $products = $product->with('attributes', 'categories')->get();
+
+        return view('admin.products.index', compact('nameColumns', 'products'));
     }
 
     /**
@@ -22,9 +28,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category, AttributeGroup $attributeGroup)
     {
-        //
+        $groups = $attributeGroup->with('attributes')->get();
+        $categories = $category->allWithPath();
+
+        return view('admin.products.create', compact('groups', 'categories'));
     }
 
     /**
@@ -35,7 +44,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $product = Product::create($request->all());
+
+        $attributes = request('attributes');
+        $categories = request('categories');
+
+        $product->attributes()->sync($attributes);
+        $product->categories()->sync($categories);
+
+        return redirect()->route('products.create');
     }
 
     /**
@@ -57,7 +75,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        
     }
 
     /**
@@ -80,6 +98,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->attributes()->detach();
+        $product->categories()->detach();
+        $product->delete();
+
+        return redirect()->route('products.index');
     }
 }
