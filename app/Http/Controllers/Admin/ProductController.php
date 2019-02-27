@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\AttributeGroup;
 use App\Models\Admin\Category;
+use App\Models\Admin\File;
 use App\Models\Admin\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -45,10 +46,15 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        $product = Product::create($request->all());
 
+
+        $product = Product::create($request->all());
         $attributes = request('attributes');
         $categories = request('categories');
+
+
+
+        $product->saveFiles($request);
 
         $product->attributes()->sync($attributes);
         $product->categories()->sync($categories);
@@ -73,9 +79,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Product $product, Category $category, AttributeGroup $attributeGroup)
     {
-        
+        $product = $product->with('attributes', 'categories')->firstOrFail();
+        $categories = $category->allWithPath();
+        $groups = $attributeGroup->with('attributes')->get();
+
+        return view('admin.products.edit', compact('product', 'categories', 'groups'));
     }
 
     /**
@@ -87,7 +97,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->update($request->all());
+
+        $attributes = request('attributes');
+        $categories = request('categories');
+
+        $product->attributes()->sync($attributes);
+        $product->categories()->sync($categories);
+
+        return redirect()->route('products.index');
     }
 
     /**

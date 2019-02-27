@@ -45,12 +45,17 @@
                aria-selected="false">Attribute</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="attribute-tab" data-toggle="tab" href="#images" role="tab"
+               aria-controls="images"
+               aria-selected="false">Images</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo"
                aria-selected="false">SEO</a>
         </li>
     </ul>
 
-    <form action="{{ route('products.store') }}" method="POST" id="productsForm">
+    <form action="{{ route('products.store') }}" method="POST" id="productsForm" enctype="multipart/form-data" >
         {{ csrf_field() }}
         <div class="tab-content" id="products">
 
@@ -124,6 +129,11 @@
                     @empty
 
                     @endforelse
+                </div>
+            </div>
+            <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="attribute-tab">
+                <div class="mt-3">
+                    <input name="files[]" id="files" type="file" multiple="" />
                 </div>
             </div>
         </div>

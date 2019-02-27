@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 
-    protected $table = 'products';
+    use Fileable;
+
+    protected $rootDir = 'products/';
 
     protected $fillable = ['manufacturer_id', 'sku', 'name', 'quantity', 'price', 'status'];
 
@@ -18,6 +20,7 @@ class Product extends Model
     {
         return $this->belongsToMany(Attribute::class, 'attribute_product');
     }
+
 
     public static function boot()
     {
@@ -53,4 +56,11 @@ class Product extends Model
             'action' => 'action'
         ];
     }
+
+
+    public function getRootDirectory()
+    {
+        return $this->rootDir;
+    }
+
 }
