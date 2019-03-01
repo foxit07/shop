@@ -55,7 +55,7 @@
         </li>
     </ul>
 
-    <form action="{{ route('products.store') }}" method="POST" id="productsForm" enctype="multipart/form-data" >
+    <form action="{{ route('products.store') }}" method="POST" id="productsForm" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="tab-content" id="products">
 
@@ -97,10 +97,22 @@
 
             <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="links-tab">
                 <div class="mt-3">
+                    <div class="form-group">
+                        <label for="manufacturers">Manufacturer</label>
+                        <select class="form-control" id="manufacturers" name="manufacturer_id">
+                            @foreach($manufacturers as $manufacturer)
+                                <option value="{{ $manufacturer->id }}">{{ $manufacturer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
                     <div class="form-group">
-                        <label for="manufacturer">Manufacturer</label>
-                        <input type="text" class="form-control" id="manufacturer" placeholder="Manufacturer" name="manufacturer_id">
+                        <label for="providers">Provider</label>
+                        <select class="form-control" id="providers" name="provider_id">
+                            @foreach($providers as $provider)
+                                <option value="{{ $provider->id }}">{{ $provider->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="categories">Categories</label>
@@ -133,7 +145,7 @@
             </div>
             <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="attribute-tab">
                 <div class="mt-3">
-                    <input name="files[]" id="files" type="file" multiple="" />
+                    <input name="files[]" id="files" type="file" multiple=""/>
                 </div>
             </div>
         </div>

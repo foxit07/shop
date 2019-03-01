@@ -81,10 +81,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{ route('attributes.index') }}">Manufactures</a>
+                                <a href="{{ route('manufacturers.index') }}">Manufactures</a>
                             </li>
                             <li>
-                                <a href="{{ route('attributes_group.index') }}">Providers</a>
+                                <a href="{{ route('providers.index') }}">Providers</a>
                             </li>
                         </ul>
                     </li>
@@ -105,16 +105,24 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class='sidebar-link' href="category">Categories</a>
+                        <a class='sidebar-link' href="category">Orders</a>
                     </li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                <span class="icon-holder">
+                  <i class="c-orange-500 ti-layout-list-thumb"></i>
+                </span>
+                    <span class="title">Customers</span>
+                    <span class="arrow">
+                  <i class="ti-angle-right"></i>
+                </span>
+                </a>
+                <ul class="dropdown-menu">
                     <li>
-                        <a class='sidebar-link' href="datatable.html">Products</a>
-                    </li>
-                    <li>
-                        <a class='sidebar-link' href="datatable.html">Characteristics</a>
-                    </li>
-                    <li>
-                        <a class='sidebar-link' href="datatable.html">Manufactures</a>
+                        <a class='sidebar-link' href="category">Customers</a>
                     </li>
                 </ul>
             </li>

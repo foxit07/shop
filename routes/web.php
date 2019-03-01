@@ -24,6 +24,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
     Route::resource('attributes_group', 'AttributesGroupController');
     Route::resource('attributes', 'AttributesController');
     Route::resource('products', 'ProductController');
+    Route::resource('manufacturers', 'ManufacturerController');
+    Route::resource('providers', 'ProviderController');
 });
 
 Auth::routes();

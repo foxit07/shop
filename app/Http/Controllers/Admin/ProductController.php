@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin\AttributeGroup;
 use App\Models\Admin\Category;
 use App\Models\Admin\File;
+use App\Models\Admin\Manufacturer;
 use App\Models\Admin\Product;
+use App\Models\Admin\Provider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,12 +31,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Category $category, AttributeGroup $attributeGroup)
+    public function create(Category $category, AttributeGroup $attributeGroup, Provider $provider, Manufacturer $manufacturer)
     {
         $groups = $attributeGroup->with('attributes')->get();
         $categories = $category->allWithPath();
+        $providers = $provider->all();
+        $manufacturers = $manufacturer->all();
 
-        return view('admin.products.create', compact('groups', 'categories'));
+
+        return view('admin.products.create', compact('groups', 'categories', 'manufacturers', 'providers'));
     }
 
     /**
@@ -81,7 +86,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product, Category $category, AttributeGroup $attributeGroup)
     {
-        $product = $product->with('attributes', 'categories')->firstOrFail();
+        $product = $product->with('attributes', 'categories', 'files')->firstOrFail();
         $categories = $category->allWithPath();
         $groups = $attributeGroup->with('attributes')->get();
 

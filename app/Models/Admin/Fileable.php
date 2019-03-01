@@ -37,9 +37,9 @@ trait Fileable
         foreach ($uploadedFiles as $uploadedFile){
             $filename = time().$uploadedFile->getClientOriginalName();
             $dir = md5($filename);
-            $path = 'products/' . $this->id .'/'. $dir .'/';
+            $path = $this->rootDir . $this->id .'/'. $dir .'/';
             Storage::disk('local')->putFileAs($path, $uploadedFile, $filename);
-            $att = ['path' => $path];
+            $att = ['path' => $path .  $filename];
             $this->files()->create($att);
         }
 

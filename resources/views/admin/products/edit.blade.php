@@ -45,6 +45,11 @@
                aria-selected="false">Attribute</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="attribute-tab" data-toggle="tab" href="#images" role="tab"
+               aria-controls="images"
+               aria-selected="false">Images</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo"
                aria-selected="false">SEO</a>
         </li>
@@ -133,6 +138,14 @@
                     @empty
 
                     @endforelse
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="attribute-tab">
+                <div class="mt-3">
+                    @foreach($product->files as $file)
+                        <img src="{{ asset('storage/' . $file->path) }}" alt="" class="img-thumbnail" width="300" height="300">
+                    @endforeach
                 </div>
             </div>
         </div>
